@@ -4,65 +4,68 @@ const $ = n => document.querySelector(n);
 const log = console.log;
 const ace = (n, func) => n.addEventListener('click', func);
 
-/**
- * First thing to do is to define actions
- * Then define the mutations which those actions would cause
- * Then set the initial state
- * Then create the store instance
- * The subscribe function is used to tell 
- * variables to update their values anytime state is changed
-*/
-
 const actions = {
-  addSub(context, payload){
-    context.commit('addSub', payload)
+  colorClick(context, payload){
+    context.commit('handleClick', payload)
   },
-  multDivide(context, payload){
-    context.commit('multDivide', payload)
+  textInput(context, payload){
+    context.commit('handleChange', payload)
   }
 }
-
 const mutations = {
-  addSub(state, payload){
-    state.number += payload;
+  handleClick(state, payload){
+    state.color = payload.color;
+    state.coloredText = payload.text;
     return state;
   },
-  multDividey(state, payload){
-    state.number *= payload;
+  handleChange(state, payload){
+    state.preText = payload;
+    return state;
   }
 }
 
+
 const initialState = {
-  number:15
+  color:'',
+  coloredText:'black',
+  preText:'I am',
 }
 
-const storeInstance = new Store({
-  actions,
-  mutations,
-  initialState
+const storeInstance = new Store({ 
+  actions, mutations, initialState 
 })
 
-const addOne = $('.add1');
-const subOne = $('.sub1');
-const multTwo = $('.mult2');
-const overThree = $('.div3');
-const number = $('.number');
-number.textContent = storeInstance.state.number.toFixed(2);
+const nodes = {
+  red:$('.red'), 
+  blue:$('.blue'), 
+  green:$('.green'),
+  titleSetter:$('#title-setter'),
+  title:$('#title'),
+  textColor:$('#text-color')
+}
+const {red, blue, green, title, titleSetter, textColor } = nodes;
 
-ace(addOne, () => {
-  storeInstance.dispatch('addSub', 1)
+title.textContent = storeInstance.state.preText;
+titleSetter.value = storeInstance.state.preText;
+textColor.textContent = storeInstance.state.coloredText;
+
+ace(red, () => {
+  storeInstance.dispatch('colorClick', {color:'red', text:'red'})
 })
-ace(subOne, () => {
-  storeInstance.dispatch('addSub', -1)
+ace(green, () => {
+  storeInstance.dispatch('colorClick', {color:'green', text:'green'})
 })
-ace(multTwo, () => {
-  storeInstance.dispatch('multDivide', 2)
+ace(blue, () => {
+  storeInstance.dispatch('colorClick', {color:'blue', text:'blue'})
 })
-ace(overThree, () => {
-  storeInstance.dispatch('multDivide', (1/3))
+titleSetter.addEventListener('input', () => {
+  storeInstance.dispatch('textInput', titleSetter.value)
 })
 
 
 storeInstance.subscribe(state => {
-    number.textContent = state.number.toFixed(2);
-});
+  textColor.style.color = state.color;
+  textColor.textContent = state.coloredText;
+  title.textContent = state.preText;
+  titleSetter.value = state.preText;
+})

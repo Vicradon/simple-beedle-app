@@ -21,20 +21,27 @@
       text-align: center;
       padding-bottom: 2rem;
     }
+    #title-setter {
+      text-align: center;
+      font-size: 1.5rem;
+      width: 40%;
+      margin: 1rem 0;
+    }
   </style>
 </head>
 
 <body>
   <main>
 
-    <h1 class="number"></h1>
+    <h1><span id="title"></span> <span id="text-color"></span> </h1>
 
     <div class="button-group">
-      <button class="add1">Add 1</button>
-      <button class="sub1">Subract 1</button>
-      <button class="mult2">times 2</button>
-      <button class="div3">over 3</button>
+      <button data-color = "red" class="red">red</button>
+      <button data-color = "blue" class="blue">blue</button>
+      <button data-color = "green" class="green">green</button>
     </div>
+
+    <input type="text" id="title-setter">
   </main>
 </body>
 
