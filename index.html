@@ -13,7 +13,8 @@
       align-items: center;
       height: 70vh;
     }
-    main{
+
+    main {
       width: 400px;
       border: 1px solid #eee;
       font-size: 2rem;
@@ -21,11 +22,31 @@
       text-align: center;
       padding-bottom: 2rem;
     }
+
     #title-setter {
       text-align: center;
       font-size: 1.5rem;
       width: 40%;
       margin: 1rem 0;
+    }
+
+    #info {
+      font-size: 1rem;
+    }
+
+    @media(max-width:450px) {
+      main {
+        width: 300px;
+        font-size: 1rem;
+      }
+
+      #title-setter {
+        font-size: 1rem;
+      }
+
+      #info {
+        padding: 0 1rem;
+      }
     }
   </style>
 </head>
@@ -36,16 +57,18 @@
     <h1><span id="title"></span> <span id="text-color"></span> </h1>
 
     <div class="button-group">
-      <button data-color = "red" class="red">red</button>
-      <button data-color = "blue" class="blue">blue</button>
-      <button data-color = "green" class="green">green</button>
+      <button data-color="red" class="red">red</button>
+      <button data-color="blue" class="blue">blue</button>
+      <button data-color="green" class="green">green</button>
     </div>
 
     <input type="text" id="title-setter">
+
+    <p id="info">Try changing the value of the input. e.g. "This is color"</p>
   </main>
 </body>
 
 <script src="./beedle.mjs" async type="module"></script>
-<script  src="./script.mjs" async type="module"></script>
+<script src="./script.mjs" async type="module"></script>
 
 </html>
