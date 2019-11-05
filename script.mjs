@@ -1,47 +1,66 @@
-import app from './testMoule.mjs'
+import Store from './beedle.mjs';
+
+// Set actions, mutations and initial state
+const actions = {
+    saySomething(context, payload) {
+        context.commit('setMessage', payload);
+    },
+    clickButton(context, payload){
+      context.commit('clickButton', payload)
+    }
+};
+
+const mutations = {
+    setMessage(state, payload) {
+        state.message = payload;
+        return state;
+    },
+    clickButton(state, payload){
+      state.buttonMessage = payload;
+      return state
+    }
+};
+
+const initialState = {
+   message: 'Hello, world',
+   buttonMessage:" I'm the button message"
+};
+
+// Create our store instance
+const storeInstance = new Store({
+    actions,
+    mutations,
+    initialState
+});
+
 const $ = n => document.querySelector(n);
 const log = console.log;
 
-$('#entered-text').textContent = app;
- 
+// Grab the textearea and dispatch the action on 'input'
+const textElement = $('textarea');
+const button = $('#button');
 
-/*import Store from './beedle.mjs';
-
-const actions = {
-  typeStuff(context, payload) {
-    context.commit('setText', payload)
-  }
-}
-
-const mutations = {
-  setText(state, payload){
-    state.text = payload;
-
-    return state;
-  }
-}
-
-const initState = {
-  text:'New text would appear here'
-}
-
-const storeInstance = new Store({
-  actions,
-  mutations,
-  initState
+button.addEventListener('click', () => {
+  storeInstance.dispatch('clickButton', "The message from the button")
 })
 
-const $ = n => document.querySelector(n);
+textElement.addEventListener('input', () => {
 
-const inpElem = $('#inp-elem');
+    // Dispatch the action, which will subsequently pass this message to the mutation
+    // which in turn, updates the store's state
+    storeInstance.dispatch('saySomething', textElement.value.trim());
+});
 
-inpElem.addEventListener('input', () => {
-  storeInstance.dispatch('typeStuff', inpElem.value.trim());
-})
-const parElem = $('#entered-text');
+// Grab the text element and attach it to the stateChange event
+const messageElement = $('.js-message-element');
+const otherParagraph = $('#other-paragraph');
 
+
+// This fires every time the state updates
+storeInstance.subscribe(state => {
+    messageElement.innerText = state.message;
+});
 
 storeInstance.subscribe(state => {
-  parElem.innerText = state.message;
-});
-*/
+  otherParagraph.textContent = state.buttonMessage;
+})
