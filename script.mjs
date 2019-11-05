@@ -1,66 +1,63 @@
 import Store from './beedle.mjs';
 
-// Set actions, mutations and initial state
-const actions = {
-    saySomething(context, payload) {
-        context.commit('setMessage', payload);
-    },
-    clickButton(context, payload){
-      context.commit('clickButton', payload)
-    }
-};
-
-const mutations = {
-    setMessage(state, payload) {
-        state.message = payload;
-        return state;
-    },
-    clickButton(state, payload){
-      state.buttonMessage = payload;
-      return state
-    }
-};
-
-const initialState = {
-   message: 'Hello, world',
-   buttonMessage:" I'm the button message"
-};
-
-// Create our store instance
-const storeInstance = new Store({
-    actions,
-    mutations,
-    initialState
-});
-
 const $ = n => document.querySelector(n);
 const log = console.log;
+const ace = (n, func) => n.addEventListener('click', func);
 
-// Grab the textearea and dispatch the action on 'input'
-const textElement = $('textarea');
-const button = $('#button');
+/**
+ * First thing to do is to define actions
+ * Then define the mutations which those actions would cause
+ * Then set the initial state
+ * Then create the store instance
+ * The subscribe function is used to tell 
+ * variables to update their values anytime state is changed
+*/
 
-button.addEventListener('click', () => {
-  storeInstance.dispatch('clickButton', "The message from the button")
+const actions = {
+  addSub(context, payload){
+    context.commit('addSub', payload)
+  },
+  mult(context, payload){
+    context.commit('mult', payload)
+  }
+}
+
+const mutations = {
+  addSub(state, payload){
+    state.number += payload;
+    return state;
+  },
+  mult(state, payload){
+    state.number *= payload;
+  }
+}
+
+const initialState = {
+  number:15
+}
+
+const storeInstance = new Store({
+  actions,
+  mutations,
+  initialState
 })
 
-textElement.addEventListener('input', () => {
+const addOne = $('.add1');
+const subOne = $('.sub1');
+const multTwo = $('.mult2');
+const number = $('.number');
 
-    // Dispatch the action, which will subsequently pass this message to the mutation
-    // which in turn, updates the store's state
-    storeInstance.dispatch('saySomething', textElement.value.trim());
-});
-
-// Grab the text element and attach it to the stateChange event
-const messageElement = $('.js-message-element');
-const otherParagraph = $('#other-paragraph');
-
-
-// This fires every time the state updates
-storeInstance.subscribe(state => {
-    messageElement.innerText = state.message;
-});
-
-storeInstance.subscribe(state => {
-  otherParagraph.textContent = state.buttonMessage;
+ace(addOne, () => {
+  storeInstance.dispatch('addSub', 1)
 })
+ace(subOne, () => {
+  storeInstance.dispatch('addSub', -1)
+})
+ace(multTwo, () => {
+  storeInstance.dispatch('mult', 2)
+})
+
+
+storeInstance.subscribe(state => {
+    number.textContent = state.number;
+});

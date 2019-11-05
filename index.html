@@ -6,50 +6,34 @@
   <meta name="viewport" content="width=device-width" />
   <title>Beedle Demo</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      padding: 2rem;
-      font-family: sans-serif;
+      background-color: grey;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70vh;
     }
-
-    form {
-      margin-top: 2rem;
-      max-width: 50ch;
-    }
-
-    a {
-      color: #c23616;
-    }
-    .c-label {
-      display: block;
-    }
-    .c-input-field {
-      font-family: inherit;
-      width: 100%;
-      margin-top: 1rem;
+    main{
+      width: 400px;
+      border: 1px solid #eee;
+      font-size: 2rem;
+      background-color: white;
+      text-align: center;
+      padding-bottom: 2rem;
     }
   </style>
 </head>
 
 <body>
   <main>
-    <h1>Beedle demo</h1>
-    <p>A simple demo to show how <a href="https://github.com/hankchizljaw/beedle">Beedle</a> manages your state and how
-      the state changes are cascaded. View <a href="/main.js">source</a>.</p>
-    <p><b>Live Message:</b> <span aria-live="polite" class="js-message-element">Hello, world</span></p>
-    <form class="boilerform" action="" method="post">
-      <div>
-        <label for="message" class="c-label">Update the live message</label>
-        <textarea name="message" id="message" class="c-input-field c-input-field--multiline" rows="10"></textarea>
-      </div>
 
-    </form>
-    <p id="other-paragraph">I will change</p>
-    <button id="button">Button to be clicked</button>
+    <h1 class="number">5</h1>
 
+    <div class="button-group">
+      <button class="add1">Add 1</button>
+      <button class="sub1">Subract 1</button>
+      <button class="mult2">times 2</button>
+    </div>
   </main>
 </body>
 
