@@ -17,8 +17,8 @@ const actions = {
   addSub(context, payload){
     context.commit('addSub', payload)
   },
-  mult(context, payload){
-    context.commit('mult', payload)
+  multDivide(context, payload){
+    context.commit('multDivide', payload)
   }
 }
 
@@ -27,7 +27,7 @@ const mutations = {
     state.number += payload;
     return state;
   },
-  mult(state, payload){
+  multDividey(state, payload){
     state.number *= payload;
   }
 }
@@ -45,7 +45,9 @@ const storeInstance = new Store({
 const addOne = $('.add1');
 const subOne = $('.sub1');
 const multTwo = $('.mult2');
+const overThree = $('.div3');
 const number = $('.number');
+number.textContent = storeInstance.state.number.toFixed(2);
 
 ace(addOne, () => {
   storeInstance.dispatch('addSub', 1)
@@ -54,10 +56,13 @@ ace(subOne, () => {
   storeInstance.dispatch('addSub', -1)
 })
 ace(multTwo, () => {
-  storeInstance.dispatch('mult', 2)
+  storeInstance.dispatch('multDivide', 2)
+})
+ace(overThree, () => {
+  storeInstance.dispatch('multDivide', (1/3))
 })
 
 
 storeInstance.subscribe(state => {
-    number.textContent = state.number;
+    number.textContent = state.number.toFixed(2);
 });
